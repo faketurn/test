@@ -9,15 +9,15 @@ namespace BobbleSort
     {
         static void Main()
         {
-            int[] n = { 3, 2, 5, 4, 1 };
+            int[] n = { 324, 993, 9, 11985, 34, 831, 98, 3783, 47, 0328, 75892, 999, 7382, 2, 89, 30, 785, 234, 698, 11 };
             int x, a, t;
             int kosuu;
 
             // kosuuは配列の個数のこと
-            kosuu = 5;
+            kosuu = 20;
 
             Console.Write("Original array is: ");
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 20; i++)
             {
                 Console.Write(" " + n[i]);
             }
@@ -37,7 +37,7 @@ namespace BobbleSort
             }
 
             Console.Write("Sorted array is: ");
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 20; i++)
             {
                 Console.Write(" " + n[i]);
             }
