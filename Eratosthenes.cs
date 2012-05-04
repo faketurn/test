@@ -9,7 +9,7 @@ namespace Eratosthenes
     {
         static void Main()
         {
-            // 配列Hの長さは配列Prime以下で指定する
+            // 配列Hは初期配列を、配列Primeは素数をいれる
             int x = 1000;
             int[] H = new int[x];
             int[] Prime = new int[x];
