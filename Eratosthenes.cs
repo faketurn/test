@@ -46,7 +46,7 @@ namespace Eratosthenes
                 }
             }
 
-            // 添え字iの2乗が配列Hの最大値を上回るまで処理を繰り返す
+            // 添え字iが配列Hの最大値を上回るまで処理を繰り返す
             for (i = 0; i < H.Length; i++)
             {
                 if (H[i] != 0)
