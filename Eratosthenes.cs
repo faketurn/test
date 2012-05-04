@@ -10,8 +10,9 @@ namespace Eratosthenes
         static void Main()
         {
             // 配列Hの長さは配列Prime以下で指定する
-            int[] H = new int[99];
-            int[] Prime = new int[1000];
+            int x = 1000;
+            int[] H = new int[x];
+            int[] Prime = new int[x];
             int i;
             int j;
             int p = 0;
