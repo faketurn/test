@@ -13,7 +13,7 @@ namespace Seisekihyou
         public double heikin;
         public int juni;
 
-        public Seito(string name,int koku, int suu, int ei, int ri, int sya, int juni)
+        public Seito(string name, int koku, int suu, int ei, int ri, int sya, int juni)
         {
             this.name = name;
             kamoku = new int[] { koku, suu, ei, ri, sya };
@@ -62,17 +62,17 @@ namespace Seisekihyou
             Seito[] gakkyuu = { fanna, alsea, quest, palmila, shalon, sesilis };
 
             // ヘッダー部分
-            Console.WriteLine("{0,-8}{1,6}{2,4}{3,4}{4,4}{5,4}{6,4}{7,5}{8,4}", "名前", "国語", "数学", "英語", "理科", "社会", "合計点", "平均点","順位");
+            Console.WriteLine("{0,-8}{1,6}{2,4}{3,4}{4,4}{5,4}{6,4}{7,5}{8,4}", "名前", "国語", "数学", "英語", "理科", "社会", "合計点", "平均点", "順位");
 
             // 生徒個人の成績合計（横軸）
             int soukei = 0;
 
-            //配列gakkyuuの合計点を求めておく。
+            //配列gakkyuuの合計点を求めておく。総合計点を求めるためsoukeiに合計点を足していく
             for (int i = 0; i < gakkyuu.Length; i++)
             {
-                gakkyuu[i].Goukei();
+                soukei += gakkyuu[i].Goukei();
             }
-            
+
 
             // 合計点を総当りで比較し、低い点の方の順位を1ずつ下げる
             for (int i = 0; i < gakkyuu.Length - 1; i++)
@@ -92,7 +92,7 @@ namespace Seisekihyou
                 // 科目の分だけ繰り返して科目ごとの点数を表示
                 for (int j = 0; j < gakkyuu[i].kamoku.Length; j++)
                 {
-                    Console.Write("{0,6}",gakkyuu[i].kamoku[j]);
+                    Console.Write("{0,6}", gakkyuu[i].kamoku[j]);
                 }
 
                 // すでに合計点は求められているのでメソッドではなく、変数の表示をする
@@ -100,10 +100,7 @@ namespace Seisekihyou
 
                 Console.Write("   {0,0:#.00}", gakkyuu[i].Heikin());
 
-                Console.Write("{0,4}位\n",gakkyuu[i].juni);
-
-                // 総合計点を求めるためsoukeiに合計点を足していく
-                soukei += gakkyuu[i].Goukei();
+                Console.Write("{0,4}位\n", gakkyuu[i].juni);
             }
 
 
@@ -115,7 +112,7 @@ namespace Seisekihyou
             {
                 int kamokugoukei = 0;
                 for (int j = 0; j < gakkyuu.Length; j++)
-		    	{
+                {
                     kamokugoukei += gakkyuu[j].kamoku[i];
                 }
                 Console.Write("{0,6}", kamokugoukei);
@@ -133,7 +130,7 @@ namespace Seisekihyou
             Console.Write("  {0:#.00}", souheikin);
 
             // 配列gakkyuuの人数を表示
-            Console.WriteLine("{0,4}名",gakkyuu.Length); 
+            Console.WriteLine("{0,4}名", gakkyuu.Length);
         }
     }
 
