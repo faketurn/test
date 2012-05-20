@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,13 +11,15 @@ namespace Seisekihyou
         public int[] kamoku;
         public int goukei;
         public double heikin;
+        public int juni;
 
-        public Seito(string name,int koku, int suu, int ei, int ri, int sya )
+        public Seito(string name,int koku, int suu, int ei, int ri, int sya, int juni)
         {
             this.name = name;
             kamoku = new int[] { koku, suu, ei, ri, sya };
             goukei = 0;
             heikin = 0;
+            this.juni = juni;
 
             /* コンストラクタで計算する場合、下記を用いる。が、メソッド化するのとどっちがいいのだろう？
             for (int i = 0; i < kamoku.Length; i++)
@@ -50,12 +52,12 @@ namespace Seisekihyou
         static void Main()
         {
             // 生徒が増えたらSeitoクラスで作成し、配列gakkyuuに追加する
-            Seito fanna = new Seito("ファナ　", 50, 43, 80, 70, 61);
-            Seito alsea = new Seito("アルシエ", 80, 60, 33, 70, 35);
-            Seito quest = new Seito("ケスト　", 35, 59, 68, 65, 51);
-            Seito palmila = new Seito("パルミラ", 100, 100, 99, 96, 97);
-            Seito shalon = new Seito("シャロン", 51, 23, 17, 71, 97);
-            Seito sesilis = new Seito("セシリス", 75, 88, 98, 81, 95);
+            Seito fanna = new Seito("ファナ　", 50, 43, 80, 70, 61, 1);
+            Seito alsea = new Seito("アルシエ", 80, 60, 33, 70, 35, 1);
+            Seito quest = new Seito("ケスト　", 35, 59, 68, 65, 51, 1);
+            Seito palmila = new Seito("パルミラ", 100, 100, 99, 96, 97, 1);
+            Seito shalon = new Seito("シャロン", 51, 23, 17, 71, 97, 1);
+            Seito sesilis = new Seito("セシリス", 75, 88, 98, 81, 95, 1);
 
             Seito[] gakkyuu = { fanna, alsea, quest, palmila, shalon, sesilis };
 
@@ -65,23 +67,24 @@ namespace Seisekihyou
             // 生徒個人の成績合計（横軸）
             int soukei = 0;
 
-            // 順位を保持する配列junを作成
+            /*  順位を保持する配列junを作成
             int[] jun = new int[gakkyuu.Length];
+            */
 
-            // 配列junすべてに値1を代入。配列gakkyuuの合計点を求めておく。
-            for (int i = 0; i < jun.Length; i++)
+            //配列gakkyuuの合計点を求めておく。
+            for (int i = 0; i < gakkyuu.Length; i++)
             {
-                jun[i] = 1;
                 gakkyuu[i].Goukei();
             }
+            
 
             // 合計点を総当りで比較し、低い点の方の順位を1ずつ下げる
             for (int i = 0; i < gakkyuu.Length - 1; i++)
             {
                 for (int j = i + 1; j < gakkyuu.Length; j++)
                 {
-                    if (gakkyuu[i].goukei > gakkyuu[j].goukei) jun[j]++;
-                    if (gakkyuu[i].goukei < gakkyuu[j].goukei) jun[i]++;
+                    if (gakkyuu[i].goukei > gakkyuu[j].goukei) gakkyuu[j].juni++;
+                    if (gakkyuu[i].goukei < gakkyuu[j].goukei) gakkyuu[i].juni++;
                 }
             }
 
@@ -101,7 +104,7 @@ namespace Seisekihyou
 
                 Console.Write("   {0,0:#.00}", gakkyuu[i].Heikin());
 
-                Console.Write("{0,4}位\n",jun[i]);
+                Console.Write("{0,4}位\n",gakkyuu[i].juni);
 
                 // 総合計点を求めるためsoukeiに合計点を足していく
                 soukei += gakkyuu[i].Goukei();
