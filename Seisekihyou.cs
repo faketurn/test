@@ -67,10 +67,6 @@ namespace Seisekihyou
             // 生徒個人の成績合計（横軸）
             int soukei = 0;
 
-            /*  順位を保持する配列junを作成
-            int[] jun = new int[gakkyuu.Length];
-            */
-
             //配列gakkyuuの合計点を求めておく。
             for (int i = 0; i < gakkyuu.Length; i++)
             {
