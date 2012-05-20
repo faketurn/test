@@ -9,9 +9,10 @@ namespace Eratosthenes
     {
         static void Main()
         {
-            // 配列Hの長さは配列Prime以下で指定する
-            int[] H = new int[99];
-            int[] Prime = new int[1000];
+            // 配列Hは初期配列を、配列Primeは素数をいれる
+            int x = 1000;
+            int[] H = new int[x];
+            int[] Prime = new int[x];
             int i;
             int j;
             int p = 0;
@@ -46,7 +47,7 @@ namespace Eratosthenes
                 }
             }
 
-            // 添え字iの2乗が配列Hの最大値を上回るまで処理を繰り返す
+            // 添え字iが配列Hの最大値を上回るまで処理を繰り返す
             for (i = 0; i < H.Length; i++)
             {
                 if (H[i] != 0)
