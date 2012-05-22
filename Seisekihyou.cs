@@ -133,7 +133,7 @@ namespace Seisekihyou
             Console.Write("{0,7}", soukei);
 
             // 総平均点を表示
-            decimal souheikin = soukei / 5;
+            decimal souheikin = (decimal)soukei / 5;
             Console.Write("  {0:#.00}", souheikin);
 
             // リストgakkyuuの人数を表示
