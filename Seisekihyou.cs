@@ -64,8 +64,7 @@ namespace Seisekihyou
     {
         static void Main()
         {
-            // 生徒が増えたらSeitoクラスで作成し、リストgakkyuuに追加する
-
+            // 生徒が増えたらSeitoクラスで、リストgakkyuuに追加（Add）する
             List<Seito> gakkyuu = new List<Seito>();
             gakkyuu.Add(new Seito("ファナ　", 50, 43, 80, 70, 61));
             gakkyuu.Add(new Seito("アルシエ", 80, 60, 33, 70, 35));
@@ -74,7 +73,7 @@ namespace Seisekihyou
             gakkyuu.Add(new Seito("シャロン", 51, 23, 17, 71, 97));
             gakkyuu.Add(new Seito("セシリス", 75, 88, 98, 81, 95));
 
-            // 生徒全員分の成績合計を入れる変数を宣言（縦軸）
+            // 生徒全員分の総合計と科目別合計点を入れる変数を宣言（縦軸）
             int soukei = 0;
             int kokugokei = 0;
             int suugakukei = 0;
@@ -93,7 +92,7 @@ namespace Seisekihyou
                 syakaikei += item.syakai;
             }
 
-            // 順位をつけるため配列gakkyuuの合計点を計算
+            // 順位をつけるためリストgakkyuuの合計点を計算
             // 合計点を総当りで比較し、低い点の方の順位を1ずつ下げる
             for (int i = 0; i < gakkyuu.Count - 1; i++)
             {
@@ -107,7 +106,7 @@ namespace Seisekihyou
             // ヘッダー部分
             Console.WriteLine("{0,-8}{1,6}{2,4}{3,4}{4,4}{5,4}{6,4}{7,5}{8,4}", "名前", "国語", "数学", "英語", "理科", "社会", "合計点", "平均点", "順位");
 
-            // 生徒個人の成績と成績合計を表示（横軸）
+            // 生徒個人の科目別点と合計点を表示（横軸）
             foreach (Seito item in gakkyuu)
             {
                 Console.Write("{0,-8}", item.namae);
@@ -137,7 +136,7 @@ namespace Seisekihyou
             decimal souheikin = soukei / 5;
             Console.Write("  {0:#.00}", souheikin);
 
-            // 配列gakkyuuの人数を表示
+            // リストgakkyuuの人数を表示
             Console.WriteLine("{0,4}名", gakkyuu.Count);
         }
     }
