@@ -81,7 +81,7 @@ namespace Seisekihyou
             int rikakei = 0;
             int syakaikei = 0;
 
-            // 総合計点を求めるためsoukeiと各科目keiに合計点を計算
+            // 生徒全員分の総合計と科目別合計点をを計算
             foreach (Seito item in gakkyuu)
             {
                 soukei += item.Goukei();
@@ -92,7 +92,7 @@ namespace Seisekihyou
                 syakaikei += item.syakai;
             }
 
-            // 順位をつけるためリストgakkyuuの合計点を計算
+            // 順位をつけるため生徒別に合計点を計算
             // 合計点を総当りで比較し、低い点の方の順位を1ずつ下げる
             for (int i = 0; i < gakkyuu.Count - 1; i++)
             {
@@ -106,7 +106,7 @@ namespace Seisekihyou
             // ヘッダー部分
             Console.WriteLine("{0,-8}{1,6}{2,4}{3,4}{4,4}{5,4}{6,4}{7,5}{8,4}", "名前", "国語", "数学", "英語", "理科", "社会", "合計点", "平均点", "順位");
 
-            // 生徒個人の科目別点と合計点を表示（横軸）
+            // 生徒別に科目別点と合計点を表示（横軸）
             foreach (Seito item in gakkyuu)
             {
                 Console.Write("{0,-8}", item.namae);
