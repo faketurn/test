@@ -7,39 +7,52 @@ namespace Seisekihyou
 {
     public class Seito
     {
-        public string name;
-        public int[] kamoku;
+        public string namae;
+        public int kokugo;
+        public int suugaku;
+        public int eigo;
+        public int rika;
+        public int syakai;
+
         public int goukei;
         public decimal heikin;
         public int juni;
 
-        public Seito(string name, int koku, int suu, int ei, int ri, int sya)
+        // デフォルトコンストラクタ
+        public Seito()
         {
-            this.name = name;
+            this.namae = "";
+            this.kokugo = 0;
+            this.suugaku = 0;
+            this.eigo = 0;
+            this.rika = 0;
+            this.syakai = 0;
 
-            // 5教科の点数は同じデータ型の集まりなので配列で保持する
-            kamoku = new int[] { koku, suu, ei, ri, sya };
             goukei = 0;
             heikin = 0;
             juni = 1;
+        }
 
-            /* コンストラクタで計算する場合、下記を用いる。が、メソッド化するのとどっちがいいのだろう？
-             * デフォルトコンストラクタを用いる場合、合計点や平均点を求めるタイミングが変わってくるため
-             * メソッド化したほうが良い
-            for (int i = 0; i < kamoku.Length; i++)
-            {
-                goukei += kamoku[i];
-            }
-            // int * int は片方をdecimalにするとキャストで答えがdecimalになる
-            heikin = (decimal)goukei / kamoku.Length;
-             */
+        // 引数つきのコンストラクタ（オーバーロードで2種類目のコンストラクタの作り方を示している）
+        public Seito(string namae, int kokugo, int suugaku, int eigo, int rika, int syakai)
+        {
+            this.namae = namae;
+            this.kokugo = kokugo;
+            this.suugaku = suugaku;
+            this.eigo = eigo;
+            this.rika = rika;
+            this.syakai = syakai;
+
+            goukei = 0;
+            heikin = 0;
+            juni = 1;
         }
 
         public int Goukei()
         {
-            for (int i = 0; i < kamoku.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
-                goukei += kamoku[i];
+                goukei = kokugo + suugaku + eigo + rika + syakai;
             }
             return goukei;
         }
@@ -47,7 +60,12 @@ namespace Seisekihyou
         public decimal Heikin()
         {
             // int * int は片方をdecimalにするとキャストで答えがdecimalになる
-            return heikin = (decimal)goukei / kamoku.Length;
+            return heikin = (decimal)goukei / 5;
+        }
+
+        public int Soukei()
+        {
+            foreach(Seito soukei in 
         }
     }
 
@@ -55,48 +73,65 @@ namespace Seisekihyou
     {
         static void Main()
         {
-            // 生徒が増えたらSeitoクラスで作成し、配列gakkyuuに追加する
-            Seito fanna = new Seito("ファナ　", 50, 43, 80, 70, 61);
-            Seito alsea = new Seito("アルシエ", 80, 60, 33, 70, 35);
-            Seito quest = new Seito("ケスト　", 35, 59, 68, 65, 51);
-            Seito palmila = new Seito("パルミラ", 100, 100, 99, 96, 97);
-            Seito shalon = new Seito("シャロン", 51, 23, 17, 71, 97);
-            Seito sesilis = new Seito("セシリス", 75, 88, 98, 81, 95);
+            #region // 生徒が増えたらSeitoクラスで作成し、リストgakkyuuに追加する //
+            List<Seito> gakkyuu = new List<Seito>();
+            
+            string namae;
+            string kokugo;
+            int kokugoi = 0;
+            int suugaku;
+            int eigo;
+            int rika;
+            int syakai;
 
-            Seito[] gakkyuu = { fanna, alsea, quest, palmila, shalon, sesilis };
+            Console.WriteLine("名前を入力してください");
+            namae = Console.ReadLine();
+            Console.WriteLine("国語の点数を入力してください");
+            kokugo = Console.ReadLine();
+            kokugoi = int.Parse(kokugo);
 
-            // ヘッダー部分
+            gakkyuu.Add(new Seito(namae, kokugoi,1,1,1,1));
+            gakkyuu.Add(new Seito("ファナ　", 50, 43, 80, 70, 61));
+            gakkyuu.Add(new Seito("アルシエ", 80, 60, 33, 70, 35));
+            gakkyuu.Add(new Seito("ケスト　", 35, 59, 68, 65, 51));
+            gakkyuu.Add(new Seito("パルミラ", 100, 100, 99, 96, 97));
+            gakkyuu.Add(new Seito("シャロン", 51, 23, 17, 71, 97));
+            gakkyuu.Add(new Seito("セシリス", 75, 88, 98, 81, 95));
+
+            #endregion
+            #region// ヘッダー部分 //
             Console.WriteLine("{0,-8}{1,6}{2,4}{3,4}{4,4}{5,4}{6,4}{7,5}{8,4}", "名前", "国語", "数学", "英語", "理科", "社会", "合計点", "平均点", "順位");
 
             // 生徒個人の成績合計（横軸）
             int soukei = 0;
 
             // 順位をつけるため配列gakkyuuの合計点を求めておく。同時に総合計点を求めるためsoukeiに合計点を足していく
-            for (int i = 0; i < gakkyuu.Length; i++)
+            for (int i = 0; i < gakkyuu.Count; i++)
             {
                 soukei += gakkyuu[i].Goukei();
             }
 
             // 合計点を総当りで比較し、低い点の方の順位を1ずつ下げる
-            for (int i = 0; i < gakkyuu.Length - 1; i++)
+            for (int i = 0; i < gakkyuu.Count - 1; i++)
             {
-                for (int j = i + 1; j < gakkyuu.Length; j++)
+                for (int j = i + 1; j < gakkyuu.Count; j++)
                 {
                     if (gakkyuu[i].goukei > gakkyuu[j].goukei) gakkyuu[j].juni++;
                     if (gakkyuu[i].goukei < gakkyuu[j].goukei) gakkyuu[i].juni++;
                 }
             }
-
-            // 配列gakkyuuの表示部分
-            for (int i = 0; i < gakkyuu.Length; i++)
+            #endregion
+            #region // 配列gakkyuuの表示部分 //
+            for (int i = 0; i < gakkyuu.Count; i++)
             {
-                Console.Write("{0,-8}", gakkyuu[i].name);
+                Console.Write("{0,-8}", gakkyuu[i].namae);
 
-                // 科目の分だけ繰り返して科目ごとの点数を表示
-                for (int j = 0; j < gakkyuu[i].kamoku.Length; j++)
-                {
-                    Console.Write("{0,6}", gakkyuu[i].kamoku[j]);
-                }
+                // 科目ごとの点数を表示
+                Console.Write("{0,6}", gakkyuu[i].kokugo);
+                Console.Write("{0,6}", gakkyuu[i].suugaku);
+                Console.Write("{0,6}", gakkyuu[i].eigo);
+                Console.Write("{0,6}", gakkyuu[i].rika);
+                Console.Write("{0,6}", gakkyuu[i].syakai);
 
                 // すでに合計点は求められているのでメソッドではなく、変数の表示をする
                 Console.Write("{0,7}", gakkyuu[i].goukei);
@@ -105,36 +140,40 @@ namespace Seisekihyou
 
                 Console.Write("{0,4}位\n", gakkyuu[i].juni);
             }
+            #endregion
+            #region // 生徒全員の成績合計（縦軸）//
+            Console.Write("{0,-10}", "合計");
 
+            int kokukei = 0;
+            int suukei = 0;
+            int eikei = 0;
+            int rikei = 0;
+            int syakei = 0;
 
-            // 生徒全員の成績合計（縦軸）
-            Console.Write("{0,-10}","合計");
-
-            // 科目ごとの合計点を計算、表示
-            for (int i = 0; i < gakkyuu[i].kamoku.Length; i++)
+            foreach (var item in gakkyuu)
             {
-                int kamokugoukei = 0;
-                for (int j = 0; j < gakkyuu.Length; j++)
-                {
-                    kamokugoukei += gakkyuu[j].kamoku[i];
-                }
-                Console.Write("{0,6}", kamokugoukei);
+                kokukei += item.kokugo;
+                suukei += item.suugaku;
+                eikei += item.eigo;
+                rikei += item.rika;
+                syakei += item.syakai;
             }
+            Console.Write("{0,6}", kokukei);
+            Console.Write("{0,6}", suukei);
+            Console.Write("{0,6}", eikei);
+            Console.Write("{0,6}", rikei);
+            Console.Write("{0,6}", syakei);
+
 
             // 総合計点を表示
             Console.Write("{0,7}", soukei);
 
-            // 総平均点を計算、表示
-            decimal souheikin = 0;
-            for (int i = 0; i < gakkyuu.Length; i++)
-            {
-                souheikin += gakkyuu[i].Heikin();
-            }
+            decimal souheikin = soukei / 5;
             Console.Write("  {0:#.00}", souheikin);
 
             // 配列gakkyuuの人数を表示
-            Console.WriteLine("{0,4}名", gakkyuu.Length);
+            Console.WriteLine("{0,4}名", gakkyuu.Count);
+            #endregion
         }
     }
-
 }
