@@ -50,22 +50,13 @@ namespace Seisekihyou
 
         public int Goukei()
         {
-            for (int i = 0; i < 5; i++)
-            {
-                goukei = kokugo + suugaku + eigo + rika + syakai;
-            }
-            return goukei;
+            return kokugo + suugaku + eigo + rika + syakai;
         }
 
         public decimal Heikin()
         {
             // int * int は片方をdecimalにするとキャストで答えがdecimalになる
-            return heikin = (decimal)goukei / 5;
-        }
-
-        public int Soukei()
-        {
-            foreach(Seito soukei in 
+            return (decimal)(kokugo + suugaku + eigo + rika + syakai) / 5;
         }
     }
 
@@ -75,7 +66,8 @@ namespace Seisekihyou
         {
             #region // 生徒が増えたらSeitoクラスで作成し、リストgakkyuuに追加する //
             List<Seito> gakkyuu = new List<Seito>();
-            
+
+            /*
             string namae;
             string kokugo;
             int kokugoi = 0;
@@ -90,7 +82,9 @@ namespace Seisekihyou
             kokugo = Console.ReadLine();
             kokugoi = int.Parse(kokugo);
 
-            gakkyuu.Add(new Seito(namae, kokugoi,1,1,1,1));
+            gakkyuu.Add(new Seito(namae, kokugoi, 1, 1, 1, 1));
+            */
+
             gakkyuu.Add(new Seito("ファナ　", 50, 43, 80, 70, 61));
             gakkyuu.Add(new Seito("アルシエ", 80, 60, 33, 70, 35));
             gakkyuu.Add(new Seito("ケスト　", 35, 59, 68, 65, 51));
@@ -105,10 +99,12 @@ namespace Seisekihyou
             // 生徒個人の成績合計（横軸）
             int soukei = 0;
 
-            // 順位をつけるため配列gakkyuuの合計点を求めておく。同時に総合計点を求めるためsoukeiに合計点を足していく
-            for (int i = 0; i < gakkyuu.Count; i++)
+            // 順位をつけるため配列gakkyuuの合計点を求めておく。
+            // 同時に総合計点を求めるためsoukeiに合計点を足していく
+            // foreach使うってこういうことか？
+            foreach (Seito kei in gakkyuu)
             {
-                soukei += gakkyuu[i].Goukei();
+                soukei += kei.Goukei();
             }
 
             // 合計点を総当りで比較し、低い点の方の順位を1ずつ下げる
@@ -116,11 +112,12 @@ namespace Seisekihyou
             {
                 for (int j = i + 1; j < gakkyuu.Count; j++)
                 {
-                    if (gakkyuu[i].goukei > gakkyuu[j].goukei) gakkyuu[j].juni++;
-                    if (gakkyuu[i].goukei < gakkyuu[j].goukei) gakkyuu[i].juni++;
+                    if (gakkyuu[i].Goukei() > gakkyuu[j].Goukei()) gakkyuu[j].juni++;
+                    if (gakkyuu[i].Goukei() < gakkyuu[j].Goukei()) gakkyuu[i].juni++;
                 }
             }
             #endregion
+
             #region // 配列gakkyuuの表示部分 //
             for (int i = 0; i < gakkyuu.Count; i++)
             {
@@ -134,7 +131,7 @@ namespace Seisekihyou
                 Console.Write("{0,6}", gakkyuu[i].syakai);
 
                 // すでに合計点は求められているのでメソッドではなく、変数の表示をする
-                Console.Write("{0,7}", gakkyuu[i].goukei);
+                Console.Write("{0,7}", gakkyuu[i].Goukei());
 
                 Console.Write("   {0,0:#.00}", gakkyuu[i].Heikin());
 
@@ -144,26 +141,21 @@ namespace Seisekihyou
             #region // 生徒全員の成績合計（縦軸）//
             Console.Write("{0,-10}", "合計");
 
-            int kokukei = 0;
-            int suukei = 0;
-            int eikei = 0;
-            int rikei = 0;
-            int syakei = 0;
+            int kokugokei = 0;
+            int suugakukei = 0;
+            int eigokei = 0;
+            int rikakei = 0;
+            int syakaikei = 0;
 
-            foreach (var item in gakkyuu)
+            foreach (Seito kei in gakkyuu)
             {
-                kokukei += item.kokugo;
-                suukei += item.suugaku;
-                eikei += item.eigo;
-                rikei += item.rika;
-                syakei += item.syakai;
+                kokugokei += kei.kokugo;
+                suugakukei += kei.suugaku;
+                eigokei += kei.eigo;
+                rikakei += kei.rika;
+                syakaikei += kei.syakai;
             }
-            Console.Write("{0,6}", kokukei);
-            Console.Write("{0,6}", suukei);
-            Console.Write("{0,6}", eikei);
-            Console.Write("{0,6}", rikei);
-            Console.Write("{0,6}", syakei);
-
+            Console.Write("{0,6}{1,6}{2,6}{3,6}{4,6}", kokugokei, suugakukei, eigokei, rikakei, syakaikei);
 
             // 総合計点を表示
             Console.Write("{0,7}", soukei);
