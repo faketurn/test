@@ -91,6 +91,8 @@ namespace Seisekihyou
                 rikakei += item.rika;
                 syakaikei += item.syakai;
             }
+            // 総平均点を計算
+            decimal souheikin = (decimal)soukei / 5;
 
             // 順位をつけるため生徒別に合計点を計算
             // 合計点を総当りで比較し、低い点の方の順位を1ずつ下げる
@@ -106,7 +108,7 @@ namespace Seisekihyou
             // ヘッダー部分
             Console.WriteLine("{0,-8}{1,6}{2,4}{3,4}{4,4}{5,4}{6,4}{7,5}{8,4}", "名前", "重戦", "剣士", "狩人", "僧侶", "魔術", "合計点", "平均点", "順位");
 
-            // 生徒別に科目別点と合計点を表示（横軸）
+            // 生徒別に項目の値を表示（横軸）
             foreach (Seito item in gakkyuu)
             {
                 Console.Write("{0,-8}", item.namae);
@@ -133,7 +135,6 @@ namespace Seisekihyou
             Console.Write("{0,7}", soukei);
 
             // 総平均点を表示
-            decimal souheikin = (decimal)soukei / 5;
             Console.Write("  {0:#.00}", souheikin);
 
             // リストgakkyuuの人数を表示
