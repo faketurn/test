@@ -69,12 +69,14 @@ namespace Seisekihyou
         public int eigo;
         public int rika;
         public int syakai;
+        public int soukei;
 
         public double heikokugo;
         public double heisuugaku;
         public double heieigo;
         public double heirika;
         public double heisyakai;
+        public double heisoukei;
 
         public Kamoku()
         {
@@ -83,6 +85,7 @@ namespace Seisekihyou
             eigo = 0;
             rika = 0;
             syakai = 0;
+            soukei = 0;
 
             heikokugo = 0;
             heisuugaku = 0;
@@ -94,10 +97,12 @@ namespace Seisekihyou
         public Kamoku(List<Seito> gakkyuu)
         {
             this.gakkyuu = gakkyuu;
+            kokugo = 0;
             suugaku = 0;
             eigo = 0;
             rika = 0;
             syakai = 0;
+            soukei = 0;
 
             heikokugo = 0;
             heisuugaku = 0;
@@ -116,6 +121,7 @@ namespace Seisekihyou
                 this.rika += item.rika;
                 this.syakai += item.syakai;
             }
+            soukei = kokugo + suugaku + eigo + rika + syakai;
         }
 
         public void Heikin()
@@ -125,7 +131,7 @@ namespace Seisekihyou
             heieigo = eigo / gakkyuu.Count;
             heirika = rika / gakkyuu.Count;
             heisyakai = syakai / gakkyuu.Count;
-
+            heisoukei = soukei / 5;
         }
     }
 
@@ -142,35 +148,14 @@ namespace Seisekihyou
             gakkyuu.Add(new Seito("シャロン", 22, 43, 87, 15, 30));
             gakkyuu.Add(new Seito("セシリス", 18, 3, 99, 20, 11));
 
+            // Kamokuクラスのオブジェクトkeiを引数付きコンストラクタで初期化する
             Kamoku kei = new Kamoku(gakkyuu);
 
+            // オブジェクトkeiを通して合計と平均メソッドを計算し、各インスタンス変数に値を代入
             kei.Goukei();
             kei.Heikin();
 
-            /*
-            // 生徒全員分の総合計と科目別合計点を入れる変数を宣言（縦軸）
-            int soukei = 0;
-            int kokugokei = 0;
-            int suugakukei = 0;
-            int eigokei = 0;
-            int rikakei = 0;
-            int syakaikei = 0;
-
-            // 生徒全員分の総合計と科目別合計点をを計算
-            foreach (Seito item in gakkyuu)
-            {
-                soukei += item.Goukei();
-                kokugokei += item.kokugo;
-                suugakukei += item.suugaku;
-                eigokei += item.eigo;
-                rikakei += item.rika;
-                syakaikei += item.syakai;
-            }
-            // 総平均点を計算
-            decimal souheikin = (decimal)soukei / 5;
-             */ 
-
-            // OBDメソッドで降順にgakkyuuの要素を並び替えし、sortedに代入。これ以降、配列はsortedを参照する。
+            // OrderByDescendingメソッドで降順にgakkyuuの要素を並び替えし、sortedに代入。これ以降、sortedを参照する。
             List<Seito> sorted = gakkyuu.OrderByDescending(u => u.Goukei()).ToList();
 
             // 順位をつけるため生徒別に合計点を計算
@@ -204,19 +189,13 @@ namespace Seisekihyou
 
             // フッター部分
             Console.Write("{0,-10}", "合計");
-
-            // 総合計点soukeiと各科目keiを表示
             Console.Write("{0,6}", kei.kokugo);
             Console.Write("{0,6}", kei.suugaku);
             Console.Write("{0,6}", kei.eigo);
             Console.Write("{0,6}", kei.rika);
             Console.Write("{0,6}", kei.syakai);
-            Console.Write("{0,7}", kei.kokugo);
-
-            // 総平均点を表示
-            Console.Write("  {0:#.00}", kei.heikokugo);
-
-            // リストgakkyuuの人数を表示
+            Console.Write("{0,7}", kei.soukei);
+            Console.Write("  {0:#.00}", kei.heisoukei);
             Console.WriteLine("{0,4}名", gakkyuu.Count);
         }
     }
