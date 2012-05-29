@@ -137,6 +137,39 @@ namespace Seisekihyou
         }
     }
 
+    public class Juni
+    {
+        public int juni;
+        public List<Seito> sorted;
+
+        public Juni()
+        {
+            juni = 1;
+            sorted = new List<Seito>();
+        }
+
+        public Juni(List<Seito> sorted)
+        {
+            juni = 1;
+            this.sorted = sorted;
+        }
+
+        public void Jun()
+        {
+            // 順位をつけるため生徒別に合計点を計算
+            // 合計点を総当りで比較し、低い点の方の順位を1ずつ下げる
+            // 分からんなら「順位付け　アルゴリズム」でググレ
+            for (int i = 0; i < sorted.Count - 1; i++)
+            {
+                for (int j = i + 1; j < sorted.Count; j++)
+                {
+                    if (sorted[i].Goukei() > sorted[j].Goukei()) sorted[j].juni++;
+                    if (sorted[i].Goukei() < sorted[j].Goukei()) sorted[i].juni++;
+                }
+            }
+        }
+    }
+
     public class Seisekihyou
     {
         static void Main()
@@ -150,29 +183,17 @@ namespace Seisekihyou
             gakkyuu.Add(new Seito("シャロン", 22, 43, 87, 15, 30));
             gakkyuu.Add(new Seito("セシリス", 18, 3, 99, 20, 11));
 
-            // Kamokuクラスのオブジェクトkeiを引数付きコンストラクタで初期化する
             Kamoku kei = new Kamoku(gakkyuu);
-
-            // オブジェクトkeiを通して合計と平均メソッドを計算し、各インスタンス変数に値を代入
             kei.Goukei();
             kei.Heikin();
 
             // OrderByDescendingメソッドで降順にgakkyuuの要素を並び替えし、sortedに代入。これ以降、sortedを参照する。
             List<Seito> sorted = gakkyuu.OrderByDescending(u => u.Goukei()).ToList();
 
-            // 順位をつけるため生徒別に合計点を計算
-            // 合計点を総当りで比較し、低い点の方の順位を1ずつ下げる
-            // 「順位付け　アルゴリズム」でググレ
-            for (int i = 0; i < sorted.Count - 1; i++)
-            {
-                for (int j = i + 1; j < sorted.Count; j++)
-                {
-                    if (sorted[i].Goukei() > sorted[j].Goukei()) sorted[j].juni++;
-                    if (sorted[i].Goukei() < sorted[j].Goukei()) sorted[i].juni++;
-                }
-            }
+            // 順位付けもクラス化してみた。
+            Juni jun = new Juni(sorted);
+            jun.Jun();
 
-            // 表示部分のコードを1行にしてみた。案の定見づらい……
             // ヘッダー部分
             Console.WriteLine(
                 "{0,-8}{1,6}{2,4}{3,4}{4,4}{5,4}{6,4}{7,5}{8,4}",
