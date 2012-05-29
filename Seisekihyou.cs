@@ -71,15 +71,17 @@ namespace Seisekihyou
         public int syakai;
         public int soukei;
 
-        public double heikokugo;
-        public double heisuugaku;
-        public double heieigo;
-        public double heirika;
-        public double heisyakai;
-        public double heisoukei;
+        public decimal heikokugo;
+        public decimal heisuugaku;
+        public decimal heieigo;
+        public decimal heirika;
+        public decimal heisyakai;
+        public decimal heisoukei;
 
         public Kamoku()
         {
+            // リストgakkyuuを初期化。インスタンスだけ作って中身がない状態。
+            gakkyuu = new List<Seito>();
             kokugo = 0;
             suugaku = 0;
             eigo = 0;
@@ -152,15 +154,19 @@ namespace Seisekihyou
             Kamoku kei = new Kamoku(gakkyuu);
 
             // オブジェクトkeiを通して合計と平均メソッドを計算し、各インスタンス変数に値を代入
-            kei.Goukei(); kei.Heikin();
+            kei.Goukei();
+            kei.Heikin();
 
             // OrderByDescendingメソッドで降順にgakkyuuの要素を並び替えし、sortedに代入。これ以降、sortedを参照する。
             List<Seito> sorted = gakkyuu.OrderByDescending(u => u.Goukei()).ToList();
 
             // 順位をつけるため生徒別に合計点を計算
             // 合計点を総当りで比較し、低い点の方の順位を1ずつ下げる
-            for (int i = 0; i < sorted.Count - 1; i++){
-                for (int j = i + 1; j < sorted.Count; j++){
+            // 「順位付け　アルゴリズム」でググレ
+            for (int i = 0; i < sorted.Count - 1; i++)
+            {
+                for (int j = i + 1; j < sorted.Count; j++)
+                {
                     if (sorted[i].Goukei() > sorted[j].Goukei()) sorted[j].juni++;
                     if (sorted[i].Goukei() < sorted[j].Goukei()) sorted[i].juni++;
                 }
@@ -168,42 +174,46 @@ namespace Seisekihyou
 
             // 表示部分のコードを1行にしてみた。案の定見づらい……
             // ヘッダー部分
-            Console.WriteLine("{0,-8}{1,6}{2,4}{3,4}{4,4}{5,4}{6,4}{7,5}{8,4}", "名前", "重戦", "剣士", "狩人", "僧侶", "魔術", "合計点", "平均点", "順位");
+            Console.WriteLine(
+                "{0,-8}{1,6}{2,4}{3,4}{4,4}{5,4}{6,4}{7,5}{8,4}",
+                "名前",
+                "重戦",
+                "剣士",
+                "狩人",
+                "僧侶",
+                "魔術",
+                "合計点",
+                "平均点",
+                "順位");
 
-            // 生徒別に項目の値を表示（横軸）
-            foreach (Seito i in sorted){
-                Console.Write("{0,-8}{1,6}{2,6}{3,6}{4,6}{5,6}{6,7}   {7,0:#.00}{8,4}位\n", i.namae, i.kokugo, i.suugaku, i.eigo, i.rika, i.syakai, i.Goukei(), i.Heikin(), i.juni);
-            }
-
-            // フッター部分
-            Console.Write("{0,-10}{1,6}{2,6}{3,6}{4,6}{5,6}{6,7}  {7,0:#.00}{8,4}名\n", "合計", kei.kokugo, kei.suugaku, kei.eigo, kei.rika, kei.syakai, kei.soukei, kei.heisoukei, gakkyuu.Count);
-
-            /*
             // 生徒別に項目の値を表示（横軸）
             foreach (Seito i in sorted)
             {
-                Console.Write("{0,-8}", i.namae);
-                Console.Write("{0,6}", i.kokugo);
-                Console.Write("{0,6}", i.suugaku);
-                Console.Write("{0,6}", i.eigo);
-                Console.Write("{0,6}", i.rika);
-                Console.Write("{0,6}", i.syakai);
-
-                Console.Write("{0,7}", i.Goukei());
-                Console.Write("   {0,0:#.00}", i.Heikin());
-                Console.Write("{0,4}位\n", i.juni);
+                Console.Write(
+                    "{0,-8}{1,6}{2,6}{3,6}{4,6}{5,6}{6,7}   {7,0:#.00}{8,4}位\n",
+                    i.namae,
+                    i.kokugo,
+                    i.suugaku,
+                    i.eigo,
+                    i.rika,
+                    i.syakai,
+                    i.Goukei(),
+                    i.Heikin(),
+                    i.juni);
             }
+
             // フッター部分
-            Console.Write("{0,-10}", "合計");
-            Console.Write("{0,6}", kei.kokugo);
-            Console.Write("{0,6}", kei.suugaku);
-            Console.Write("{0,6}", kei.eigo);
-            Console.Write("{0,6}", kei.rika);
-            Console.Write("{0,6}", kei.syakai);
-            Console.Write("{0,7}", kei.soukei);
-            Console.Write("  {0:#.00}", kei.heisoukei);
-            Console.WriteLine("{0,4}名", gakkyuu.Count);
-            */
+            Console.Write(
+                "{0,-10}{1,6}{2,6}{3,6}{4,6}{5,6}{6,7}  {7,0:#.00}{8,4}名\n",
+                "合計",
+                kei.kokugo,
+                kei.suugaku,
+                kei.eigo,
+                kei.rika,
+                kei.syakai,
+                kei.soukei,
+                kei.heisoukei,
+                gakkyuu.Count);
         }
     }
 }
