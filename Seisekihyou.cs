@@ -61,15 +61,27 @@ namespace Seisekihyou
         }
     }
 
+    /// <summary>
+    /// 科目集計クラス
+    /// </summary>
     public class Kamoku
     {
+        /// <summary>
+        /// 生徒の成績の一覧
+        /// </summary>
         List<Seito> gakkyuu;
+
+        #region // 五教科の合計点数のインスタンス変数群 //
+        /// <summary>
+        /// 国語の総計点
+        /// </summary>
         public int kokugo;
         public int suugaku;
         public int eigo;
         public int rika;
         public int syakai;
         public int soukei;
+        #endregion
 
         public decimal heikokugo;
         public decimal heisuugaku;
@@ -77,10 +89,14 @@ namespace Seisekihyou
         public decimal heirika;
         public decimal heisyakai;
         public decimal heisoukei;
+        public decimal heiheikei;
+        public decimal heigouheikei;
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public Kamoku()
         {
-            // リストgakkyuuを初期化。インスタンスだけ作って中身がない状態。
             gakkyuu = new List<Seito>();
             kokugo = 0;
             suugaku = 0;
@@ -89,13 +105,19 @@ namespace Seisekihyou
             syakai = 0;
             soukei = 0;
 
-            heikokugo = 0;
-            heisuugaku = 0;
-            heieigo = 0;
-            heirika = 0;
-            heisyakai = 0;
+            heikokugo = 0.0m;
+            heisuugaku = 0.0m;
+            heieigo = 0.0m;
+            heirika = 0.0m;
+            heisyakai = 0.0m;
+            heiheikei = 0.0m;
+            heigouheikei = 0.0m;
         }
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="gakkyuu">生徒の成績の一覧</param>
         public Kamoku(List<Seito> gakkyuu)
         {
             this.gakkyuu = gakkyuu;
@@ -106,13 +128,18 @@ namespace Seisekihyou
             syakai = 0;
             soukei = 0;
 
-            heikokugo = 0;
-            heisuugaku = 0;
-            heieigo = 0;
-            heirika = 0;
-            heisyakai = 0;
+            heikokugo = 0.0m;
+            heisuugaku = 0.0m;
+            heieigo = 0.0m;
+            heirika = 0.0m;
+            heisyakai = 0.0m;
+            heiheikei = 0.0m;
+            heigouheikei = 0.0m;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Goukei()
         {
             foreach (Seito item in gakkyuu)
@@ -126,38 +153,46 @@ namespace Seisekihyou
             soukei = kokugo + suugaku + eigo + rika + syakai;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Heikin()
         {
-            heikokugo = kokugo / gakkyuu.Count;
-            heisuugaku = suugaku / gakkyuu.Count;
-            heieigo = eigo / gakkyuu.Count;
-            heirika = rika / gakkyuu.Count;
-            heisyakai = syakai / gakkyuu.Count;
-            heisoukei = soukei / 5;
+            if (gakkyuu.Count != 0)
+            {
+                heikokugo = (decimal)kokugo / gakkyuu.Count;
+                heisuugaku = (decimal)suugaku / gakkyuu.Count;
+                heieigo = (decimal)eigo / gakkyuu.Count;
+                heirika = (decimal)rika / gakkyuu.Count;
+                heisyakai = (decimal)syakai / gakkyuu.Count;
+                heisoukei = (decimal)soukei / 5;
+            }
+            heiheikei = heikokugo + heisuugaku + heieigo + heirika + heisyakai;
+            heigouheikei = heiheikei / gakkyuu.Count;
         }
     }
 
-    public class Juni
+    // 順位付けメソッド
+    public class Junituke
     {
         public int juni;
         public List<Seito> sorted;
 
-        public Juni()
+        public Junituke()
         {
             juni = 1;
             sorted = new List<Seito>();
         }
 
-        public Juni(List<Seito> sorted)
+        public Junituke(List<Seito> sorted)
         {
             juni = 1;
             this.sorted = sorted;
         }
 
-        public void Jun()
+        public void Juni()
         {
-            // 順位をつけるため生徒別に合計点を計算
-            // 合計点を総当りで比較し、低い点の方の順位を1ずつ下げる
+            // 順位をつけるため生徒別に合計点を計算。合計点を総当りで比較し、低い点の方の順位を1ずつ下げる
             // 分からんなら「順位付け　アルゴリズム」でググレ
             for (int i = 0; i < sorted.Count - 1; i++)
             {
@@ -183,16 +218,19 @@ namespace Seisekihyou
             gakkyuu.Add(new Seito("シャロン", 22, 43, 87, 15, 30));
             gakkyuu.Add(new Seito("セシリス", 18, 3, 99, 20, 11));
 
-            Kamoku kei = new Kamoku(gakkyuu);
-            kei.Goukei();
-            kei.Heikin();
+            // Kamokuクラスのオブジェクトkamoku_keiを引数付きコンストラクタで初期化する
+            Kamoku kamoku_kei = new Kamoku(gakkyuu);
+
+            // オブジェクトkeiを通して合計と平均メソッドを計算し、各インスタンス変数に値を代入
+            kamoku_kei.Goukei();
+            kamoku_kei.Heikin();
 
             // OrderByDescendingメソッドで降順にgakkyuuの要素を並び替えし、sortedに代入。これ以降、sortedを参照する。
             List<Seito> sorted = gakkyuu.OrderByDescending(u => u.Goukei()).ToList();
 
             // 順位付けもクラス化してみた。
-            Juni jun = new Juni(sorted);
-            jun.Jun();
+            Junituke jun = new Junituke(sorted);
+            jun.Juni();
 
             // ヘッダー部分
             Console.WriteLine(
@@ -223,17 +261,29 @@ namespace Seisekihyou
                     i.juni);
             }
 
-            // フッター部分
+            // フッター合計
             Console.Write(
-                "{0,-10}{1,6}{2,6}{3,6}{4,6}{5,6}{6,7}  {7,0:#.00}{8,4}名\n",
+                "{0,-10}{1,6}{2,6}{3,6}{4,6}{5,6}{6,7}  {7,0:#.00}  \n",
                 "合計",
-                kei.kokugo,
-                kei.suugaku,
-                kei.eigo,
-                kei.rika,
-                kei.syakai,
-                kei.soukei,
-                kei.heisoukei,
+                kamoku_kei.kokugo,
+                kamoku_kei.suugaku,
+                kamoku_kei.eigo,
+                kamoku_kei.rika,
+                kamoku_kei.syakai,
+                kamoku_kei.soukei,
+                kamoku_kei.heisoukei);
+
+            // フッター平均
+            Console.Write(
+                "{0,-10} {1,0:#.00} {2,0:#.00} {3,0:#.00} {4,0:#.00} {5,0:#.00} {6,0:#.00}   {7,0:#.00}{8,4}名\n",
+                "平均",
+                kamoku_kei.heikokugo,
+                kamoku_kei.heisuugaku,
+                kamoku_kei.heieigo,
+                kamoku_kei.heirika,
+                kamoku_kei.heisyakai,
+                kamoku_kei.heiheikei,
+                kamoku_kei.heigouheikei,
                 gakkyuu.Count);
         }
     }
