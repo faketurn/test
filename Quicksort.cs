@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,12 +39,15 @@ namespace Quicksort
                 }
             } while (i <= j);
 
+
             if (left < j)
             {
+                // qs()のrightの値にjを渡す
                 qs(items, left, j);
             }
             if (i < right)
             {
+                // qs()のleftの値にiを渡す
                 qs(items, i, right);
             }
         }
