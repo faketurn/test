@@ -1,37 +1,34 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace AbetweenB
 {
-    public class Int_string
+    public class String_int
     {
         string str1;
         string str2;
-        int num1;
-        int num2;
-        public int sum;
+        public int num1;
+        public int num2;
 
-        public Int_string()
+        public String_int()
         {
             str1 = "";
             str2 = "";
             num1 = 0;
             num2 = 0;
-            sum = 0;
         }
 
-        public Int_string(string str1, string str2)
+        public String_int(string str1, string str2)
         {
             this.str1 = str1;
             this.str2 = str2;
             num1 = 0;
             num2 = 0;
-            sum = 0;
         }
 
-        public void Int_string_henkan()
+        public void String_int_henkan()
         {
             try
             {
@@ -53,7 +50,31 @@ namespace AbetweenB
                 Console.WriteLine("「ばっ、バカっ！もっと小さいのを入れてくれないと ダメ……じゃない！！」");
                 return;
             }
+        }
+    }
 
+    public class AbetweenB
+    {
+        int num1;
+        int num2;
+        public int sum;
+
+        public AbetweenB()
+        {
+            num1 = 0;
+            num2 = 0;
+            sum = 0;
+        }
+
+        public AbetweenB(int num1, int num2)
+        {
+            this.num1 = num1;
+            this.num2 = num2;
+            sum = 0;
+        }
+
+        public void Between()
+        {
             if (num1 > num2)
             {
                 int t;
@@ -69,13 +90,14 @@ namespace AbetweenB
         }
     }
 
-    public class AbetweenB
+    public class AbetweenBmain
     {
         static void Main()
         {
             string first;
             string second;
-            Int_string henkan;
+            String_int henkan;
+            AbetweenB between;
 
             Console.WriteLine("           『 between計算プログラム ツンデレver. 』\n");
             Console.WriteLine("                                   製作者:faketurn");
@@ -94,13 +116,16 @@ namespace AbetweenB
             second = Console.ReadLine();
             Console.WriteLine("\n\n");
 
-            henkan = new Int_string(first, second);
-            henkan.Int_string_henkan();
+            henkan = new String_int(first, second);
+            henkan.String_int_henkan();
 
-            if (henkan.sum != 0)
+            between = new AbetweenB(henkan.num1, henkan.num2);
+            between.Between();
+
+            if (between.sum != 0)
             {
-                Console.WriteLine("「あ、あんたは『 {0,0} 』…よ！\n  こっ、こんな恥ずかしいコト…言わせないでよっ！」", henkan.sum);
-                Console.WriteLine("（訳：入力された数から計算された答えは「{0,0}」です。）", henkan.sum);
+                Console.WriteLine("「あ、あんたは『 {0,0} 』…よ！\n  こっ、こんな恥ずかしいコト…言わせないでよっ！」", between.sum);
+                Console.WriteLine("（訳：入力された数から計算された答えは「{0,0}」です。）", between.sum);
                 Console.WriteLine("\n\n");
             }
         }
