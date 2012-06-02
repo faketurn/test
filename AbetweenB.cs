@@ -7,7 +7,7 @@ namespace AbetweenB
 {
     public class String_int
     {
-        public static void String_int_henkan(ref int sum, string str1, string str2)
+        public static void String_int_AtoB(ref int sum, string str1, string str2)
         {
             int num1 = 0;
             int num2 = 0;
@@ -72,7 +72,7 @@ namespace AbetweenB
             second = Console.ReadLine();
             Console.WriteLine("\n\n");
             
-            String_int.String_int_henkan(ref sum, first, second);
+            String_int.String_int_AtoB(ref sum, first, second);
 
             if (sum != 0)
             {
