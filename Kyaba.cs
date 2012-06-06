@@ -177,7 +177,7 @@ namespace Kyaba
             }
             Junituke.Juni_salary(sorted_salary);
 
-            Console.WriteLine("ポイント順で表示");
+            Console.WriteLine("\n給料順で表示");
             Console.WriteLine("{0,-4}{1,-7}{2,5}{3,7}{4,5}{5,9} |{6,5}{7,5}{8,6}{9,6}",
                 "No.",
                 "名前",
